@@ -45,7 +45,7 @@ public:
 	{
 		if (this->name != nullptr)
 			delete[] this->name;
-		int size = strlen(name) + 1;
+		size_t size = strlen(name) + 1;
 		this->name = new char[size];
 		strcpy_s(this->name, size, name);
 	}
@@ -106,4 +106,61 @@ public:
 		} while (temp <= 0);
 		SetLength(temp);
 	}
+	Room& operator=(const Room& other)
+	{
+		SetFloor(other.floor);
+		SetLength(other.length);
+		SetWidth(other.width);
+		SetName(other.name);
+		return *this;
+	}
+	Room operator+(const Room& other) const
+	{
+		return Room(name, width + other.width, length + other.length, floor);
+	}
+	Room operator+(int number) const
+	{
+		return Room(name, width + number, length + number, floor);
+	}
+	Room operator-(int number) const
+	{
+		if (width - number <= 0 || length - number <= 0)
+			return Room(*this);
+		else
+			return Room(name, width - number, length - number, floor);
+	}
+	Room operator*(int number) const
+	{
+		if (number <= 0)
+			return Room(*this);
+		else
+			return Room(name, width * number, length * number, floor);
+	}
+	Room& operator++()
+	{
+		width++;
+		length++;
+		return *this;
+	}
+	Room operator++(int)
+	{
+		Room tmp(*this);
+		++*this;
+		return tmp;
+	}
+	Room& operator--()
+	{
+		if (width > 1)
+			width--;
+		if (length > 1)
+			length--;
+		return *this;
+	}
+	Room operator--(int)
+	{
+		Room tmp(*this);
+		--*this;
+		return tmp;
+	}
+
 };
