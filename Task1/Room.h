@@ -6,6 +6,7 @@ using namespace std;
 class Room
 {
 private:
+	friend istream& operator>>(istream& in, Room& room);
 	int width;
 	int length;
 	int floor;
@@ -145,7 +146,7 @@ public:
 	Room operator++(int)
 	{
 		Room tmp(*this);
-		++*this;
+		++* this;
 		return tmp;
 	}
 	Room& operator--()
@@ -159,8 +160,62 @@ public:
 	Room operator--(int)
 	{
 		Room tmp(*this);
-		--*this;
+		--* this;
 		return tmp;
 	}
-
+	bool operator==(const Room& other) const
+	{
+		return (!strcmp(name, other.name)) && width == other.width && length == other.length && floor == other.floor;
+	}
+	bool operator!=(const Room& other) const
+	{
+		return !(*this == other);
+	}
+	bool operator>(const Room& other) const
+	{
+		return this->GetArea() > other.GetArea();
+	}
+	bool operator<(const Room& other) const
+	{
+		return this->GetArea() < other.GetArea();
+	}
+	Room& operator+=(int number)
+	{
+		Room tmp(*this + number);
+		return *this = tmp;
+	}
+	Room& operator*=(int number)
+	{
+		Room tmp(*this * number);
+		return *this = tmp;
+	}
+	operator int() const
+	{
+		return GetArea();
+	}
+	Room& operator()(int width, int length, const char* name, int floor)
+	{
+		if (name != nullptr)
+			SetName(name);
+		SetWidth(width);
+		SetLength(length);
+		SetFloor(floor);
+		return *this;
+	}
 };
+
+ostream& operator<<(ostream& out, const Room& room)
+{
+	out << "Floor: " << room.GetFloor() << "  Width/Length: " << room.GetWidth() << "/" << room.GetLength();
+	return out;
+}
+istream& operator>>(istream& in, Room& room)
+{
+	cout << "Enter floor: ";
+	in >> room.floor;
+	cout << "Enter width: ";
+	in >> room.width;
+	cout << "Enter length: ";
+	in >> room.length;
+	return in;
+}
