@@ -74,9 +74,9 @@ int main()
 {
 	int arr[5];
 	InitArray(arr);
+	cout << FindElement(arr, 5, 7) << endl;
 	SortArray(arr, 5, false);
 	ShowArray(arr);
-	cout << FindElement(arr, 5, 7) << endl;
 	char arr1[5]{ 'z', 'b', 'x', 'D', 'e' };
 	ShowArray(arr1);
 	cout << FindElement(arr1, 5, 'd') << endl;
